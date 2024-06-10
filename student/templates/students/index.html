@@ -1,0 +1,79 @@
+{% extends "students/base.html" %}
+{% block body %}
+<h4 class="m-4 text-center">All Students</h4>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+          {% if students %}
+          <div class="card border-light mb-4 ms-4 me-4">
+            <div class="card-header">
+              <i class="fa-solid fa-list m-2"></i>Student Records
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Serial No</th>
+                            <th scope="col">Roll No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Field of Study</th>
+                            <th scope="col">CGPA</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{student.roll}}</td>
+                                <td>{{student.name}}</td>
+                                <td>{{student.email}}</td>
+                                <td>{{student.field_of_study}}</td>
+                                <td>{{student.result}}</td>
+                                <td>
+                                  <button type="button" class="btn btn-success me-1" href="{% url 'view_student' student.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{student.id}}"><i class="fa-solid fa-user"></i></button>
+                                  <!----Modal view---->
+                                  <div class="modal" id="myModal{{student.id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title">Student: {{student.name}}</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"></span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <ul class="list-unstyled">
+                                            <li>Roll: <strong>{{student.roll}}</strong></li>
+                                            <li>Name: <strong>{{student.name}}</strong></li>
+                                            <li>Email: <strong>{{student.email}}</strong></li>
+                                            <li>Field of Study: <strong>{{student.field_of_study}}</strong></li>
+                                            <li>CGPA: <strong>{{student.result}}</strong></li>
+                                          </ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    <a href="{% url 'edit_student' student.id %}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square "></i></a>
+                                    <a href="{% url 'delete_student' student.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+              </p>
+            </div>
+          </div>
+          {% else %}
+          <h5 class="alert alert-primary ms-4 me-4">No Student Records</h5>
+          {% endif %}
+        </div>
+      </div>
+{% endblock body %}
